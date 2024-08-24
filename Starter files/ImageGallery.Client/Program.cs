@@ -38,6 +38,9 @@ builder.Services.AddAuthentication(options =>
         //following are requested by default
         //options.Scope.Add("openid");
         //options.Scope.Add("profile");
+        options.Scope.Add("roles");
+        //mapping is needed manually as dotnet core does not do for custom idenityresource
+        options.ClaimActions.MapJsonKey("role", "role");
         //options.CallbackPath = new PathString("signin-oidc")
         options.SaveTokens = true;
         options.GetClaimsFromUserInfoEndpoint = true;
