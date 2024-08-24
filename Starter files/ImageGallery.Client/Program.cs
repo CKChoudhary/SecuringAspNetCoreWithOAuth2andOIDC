@@ -26,7 +26,11 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 
-    }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+    }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        options.AccessDeniedPath = "/Authentication/AccessDenied";
+
+    })
     .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
     {
         options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
