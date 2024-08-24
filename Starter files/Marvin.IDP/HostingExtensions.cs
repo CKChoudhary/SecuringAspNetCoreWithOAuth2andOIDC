@@ -1,3 +1,4 @@
+using Marvin.IDP.Pages;
 using Serilog;
 
 namespace Marvin.IDP;
@@ -16,7 +17,8 @@ internal static class HostingExtensions
             })
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients);
+            .AddInMemoryClients(Config.Clients)
+            .AddTestUsers(TestUsers.Users);
 
         return builder.Build();
     }
