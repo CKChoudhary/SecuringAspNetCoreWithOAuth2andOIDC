@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(configure => 
         configure.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 // create an HttpClient used for accessing the API
 builder.Services.AddHttpClient("APIClient", client =>
@@ -37,6 +41,11 @@ builder.Services.AddAuthentication(options =>
         //options.CallbackPath = new PathString("signin-oidc")
         options.SaveTokens = true;
         options.GetClaimsFromUserInfoEndpoint = true;
+
+        // Remove here means keep the claim, very confusing naming though
+        options.ClaimActions.Remove("aud");
+        options.ClaimActions.DeleteClaim("sid");
+        options.ClaimActions.DeleteClaim("idp");
 
     });
 
