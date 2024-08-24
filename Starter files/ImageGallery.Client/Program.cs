@@ -39,6 +39,8 @@ builder.Services.AddAuthentication(options =>
         options.ClientSecret = "secret";
         options.ResponseType = "code";
 
+
+        options.Scope.Add("imagegalleryapi.fullaccess");
         //following are requested by default
         //options.Scope.Add("openid");
         //options.Scope.Add("profile");
