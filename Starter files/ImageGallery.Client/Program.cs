@@ -49,6 +49,11 @@ builder.Services.AddAuthentication(options =>
         options.ClaimActions.Remove("aud");
         options.ClaimActions.DeleteClaim("sid");
         options.ClaimActions.DeleteClaim("idp");
+        options.TokenValidationParameters = new()
+        {
+            NameClaimType = "given_name",
+            RoleClaimType = "role"
+        };
 
     });
 
