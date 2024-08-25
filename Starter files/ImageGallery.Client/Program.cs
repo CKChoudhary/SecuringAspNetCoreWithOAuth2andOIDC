@@ -1,3 +1,4 @@
+using ImageGallery.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -47,8 +48,10 @@ builder.Services.AddAuthentication(options =>
         //options.Scope.Add("openid");
         //options.Scope.Add("profile");
         options.Scope.Add("roles");
+        options.Scope.Add("country");
         //mapping is needed manually as dotnet core does not do for custom idenityresource
-        options.ClaimActions.MapJsonKey("role", "role");
+        options.ClaimActions.MapJsonKey("role", "role"); //not using unique as there could be multiple roles
+        options.ClaimActions.MapUniqueJsonKey("country", "country");
         //options.CallbackPath = new PathString("signin-oidc")
         options.SaveTokens = true;
         options.GetClaimsFromUserInfoEndpoint = true;
@@ -65,7 +68,10 @@ builder.Services.AddAuthentication(options =>
 
     });
 
-
+builder.Services.AddAuthorization(authorizationOptions =>
+{
+    authorizationOptions.AddPolicy("UserCanAddImage", AuthorizationPolicies.CanAddImage());
+});
 
 
 
